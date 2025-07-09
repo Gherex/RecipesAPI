@@ -20,6 +20,6 @@ public class RecipeResponseDTO {
 
     private List<StepResponseDTO> steps;
     private List<RecipeIngredientResponseDTO> ingredients;
-    private List<String> categories;
+    private List<RecipeCategoryResponseDTO> categories;
 
 }

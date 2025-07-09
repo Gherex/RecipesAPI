@@ -22,6 +22,8 @@ public class Category {
     @Column(length = 50)
     private String name;
 
+    @Setter
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RecipeCategory> recipes = new ArrayList<>();
+    
 }

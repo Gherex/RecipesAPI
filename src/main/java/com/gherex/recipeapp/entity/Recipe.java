@@ -45,13 +45,16 @@ public class Recipe {
     @Column(name = "is_vegan", nullable = false)
     private boolean isVegan;
 
+    @Setter
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("stepOrder ASC")
     private List<Step> steps = new ArrayList<>();
 
+    @Setter
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RecipeIngredient> ingredients = new HashSet<>();
 
+    @Setter
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<RecipeCategory> categories = new HashSet<>();
 
@@ -80,4 +83,5 @@ public class Recipe {
     public void removeCategory(RecipeCategory category) {
         if (categories.remove(category)) category.setRecipe(null);
     }
+
 }
