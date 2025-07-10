@@ -3,6 +3,8 @@ package com.gherex.recipeapp.controller;
 import com.gherex.recipeapp.dto.IngredientResponseDTO;
 import com.gherex.recipeapp.service.IngredientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -14,18 +16,29 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
 
-    public Set<IngredientResponseDTO> getAllIngredients() {
-        return ingredientService.getAllIngredients();
+    public ResponseEntity<Set<IngredientResponseDTO>> getAllIngredients() {
+        Set<IngredientResponseDTO> ingredients = ingredientService.getAllIngredients();
+        return ResponseEntity.ok(ingredients); // 200 OK
     }
 
     @GetMapping("/{id}")
-    public IngredientResponseDTO getIngredientById(@PathVariable Long id) {
-        return ingredientService.getIngredientById(id);
+    public ResponseEntity<?> getIngredientById(@PathVariable Long id) {
+        try {
+            IngredientResponseDTO ingredient = ingredientService.getIngredientById(id);
+            return ResponseEntity.ok(ingredient); // 200 OK
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage()); // 404
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteIngredient(@PathVariable Long id) {
-        ingredientService.deleteIngredient(id);
+    public ResponseEntity<?> deleteIngredient(@PathVariable Long id) {
+        try {
+            ingredientService.deleteIngredient(id);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage()); // 404
+        }
     }
 
 }
