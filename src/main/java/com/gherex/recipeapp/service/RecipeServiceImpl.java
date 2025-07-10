@@ -20,22 +20,26 @@ public class RecipeServiceImpl implements RecipeService {
     private final IngredientRepository ingredientRepository;
     private final CategoryRepository categoryRepository;
 
+    @Override
     public List<RecipeResponseDTO> getAllRecipes() {
         return recipeRepository.findAll().stream()
                 .map(this::mapToResponseDTO)
                 .collect(Collectors.toList());
     }
 
+    @Override
     public Optional<Recipe> findRecipeById(Long id) {
         return recipeRepository.findById(id);
     }
 
+    @Override
     public RecipeResponseDTO getRecipeById(Long id) {
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontró la receta con ID: " + id));
         return mapToResponseDTO(recipe);
     }
 
+    @Override
     public RecipeResponseDTO createRecipe(RecipeRequestDTO dto) {
         Recipe recipe = new Recipe();
 
@@ -81,6 +85,7 @@ public class RecipeServiceImpl implements RecipeService {
         return mapToResponseDTO(recipeRepository.save(recipe));
     }
 
+    @Override
     public RecipeResponseDTO updateRecipe(Long id, RecipeRequestDTO dto) {
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("No se encontró la receta con ID: " + id));
@@ -134,6 +139,7 @@ public class RecipeServiceImpl implements RecipeService {
         return mapToResponseDTO(recipeRepository.save(recipe));
     }
 
+    @Override
     public void deleteRecipe(Long id) {
         if (!recipeRepository.existsById(id)) {
             throw new RuntimeException("No se encontró la receta con ID: " + id);
