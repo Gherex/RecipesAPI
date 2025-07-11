@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class StepResponseDTO {
 
-    private Long id;
     private Integer stepOrder;
     private String description;
+
 }

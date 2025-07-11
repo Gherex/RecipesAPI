@@ -39,7 +39,6 @@ public class StepServiceImpl implements StepService {
 
     private StepResponseDTO mapToResponseDTO(Step step) {
         StepResponseDTO dto = new StepResponseDTO();
-        dto.setId(step.getId());
         dto.setStepOrder(step.getStepOrder());
         dto.setDescription(step.getDescription());
         return dto;

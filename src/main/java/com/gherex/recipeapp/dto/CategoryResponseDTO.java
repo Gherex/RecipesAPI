@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class CategoryResponseDTO {
 
-    private Long id;
     private String name;
+
 }

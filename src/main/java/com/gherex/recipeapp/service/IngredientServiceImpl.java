@@ -39,7 +39,6 @@ public class IngredientServiceImpl implements IngredientService {
 
     public IngredientResponseDTO mapToResponseDTO(Ingredient ingredient) {
         IngredientResponseDTO dto = new IngredientResponseDTO();
-        dto.setId(ingredient.getId());
         dto.setName(ingredient.getName());
         return dto;
     }

@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class IngredientResponseDTO {
 
-    private Long id;
     private String name;
+
 }

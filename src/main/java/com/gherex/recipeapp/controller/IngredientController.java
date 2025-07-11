@@ -16,6 +16,7 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
 
+    @GetMapping
     public ResponseEntity<Set<IngredientResponseDTO>> getAllIngredients() {
         Set<IngredientResponseDTO> ingredients = ingredientService.getAllIngredients();
         return ResponseEntity.ok(ingredients); // 200 OK

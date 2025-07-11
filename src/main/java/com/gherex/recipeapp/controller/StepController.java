@@ -16,6 +16,7 @@ public class StepController {
 
     private final StepService stepService;
 
+    @GetMapping
     public ResponseEntity<List<StepResponseDTO>> getAllSteps() {
         List<StepResponseDTO> steps = stepService.getAllSteps();
         return ResponseEntity.ok(steps); // 200 OK

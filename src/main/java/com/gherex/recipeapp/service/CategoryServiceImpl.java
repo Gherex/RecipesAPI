@@ -1,5 +1,6 @@
 package com.gherex.recipeapp.service;
 
+import com.gherex.recipeapp.dto.CategoryRequestDTO;
 import com.gherex.recipeapp.dto.CategoryResponseDTO;
 import com.gherex.recipeapp.entity.Category;
 import com.gherex.recipeapp.repository.CategoryRepository;
@@ -43,9 +44,15 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
+    @Override
+    public CategoryResponseDTO createRecipe(CategoryRequestDTO categoryDTO) {
+        Category category = new Category();
+        category.setName(categoryDTO.getName());
+        return mapToResponseDTO(categoryRepository.save(category));
+    }
+
     private CategoryResponseDTO mapToResponseDTO(Category category) {
         CategoryResponseDTO dto = new CategoryResponseDTO();
-        dto.setId(category.getId());
         dto.setName(category.getName());
         return dto;
     }

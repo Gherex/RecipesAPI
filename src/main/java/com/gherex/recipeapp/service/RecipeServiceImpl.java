@@ -69,18 +69,33 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         // Ingredients con cantidades y unidades (relación intermedia)
-        dto.getIngredients()
-                .forEach(ingDTO -> {
-                    Ingredient ingredient = ingredientRepository.findById(ingDTO.getIngredientId())
-                            .orElseThrow(() -> new RuntimeException("Ingrediente no encontrado: " + ingDTO.getIngredientId()));
+        dto.getIngredients().forEach(ingDTO -> {
 
-                    RecipeIngredient ri = new RecipeIngredient();
-                    ri.setIngredient(ingredient);
-                    ri.setRecipe(recipe);
-                    ri.setQuantity(ingDTO.getQuantity());
-                    ri.setUnit(ingDTO.getUnit());
-                    recipe.addIngredient(ri);
-                });
+            Ingredient ingredient;
+
+            if (ingDTO.getIngredientId() != null) {
+                ingredient = ingredientRepository.findById(ingDTO.getIngredientId())
+                        .orElseThrow(() -> new RuntimeException("Ingrediente no encontrado: " + ingDTO.getIngredientId()));
+            } else if (ingDTO.getName() != null && !ingDTO.getName().isBlank()) {
+                String name = ingDTO.getName();
+                ingredient = ingredientRepository.findByNameIgnoreCase(name)
+                        .orElseGet(() -> {
+                            Ingredient newIngredient = new Ingredient();
+                            newIngredient.setName(name); // el setter limpia
+                            return ingredientRepository.save(newIngredient);
+                        });
+            } else {
+                throw new RuntimeException("Se debe proporcionar un ID o nombre de ingrediente");
+            }
+
+            RecipeIngredient ri = new RecipeIngredient();
+            ri.setIngredient(ingredient);
+            ri.setRecipe(recipe);
+            ri.setQuantity(ingDTO.getQuantity());
+            ri.setUnit(ingDTO.getUnit());
+
+            recipe.addIngredient(ri);
+        });
 
         return mapToResponseDTO(recipeRepository.save(recipe));
     }

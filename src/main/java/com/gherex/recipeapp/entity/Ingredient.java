@@ -16,7 +16,13 @@ public class Ingredient {
     private Long id;
 
     @Setter
-    @Column(length = 50)
+    @Column(unique = true, length = 50)
     private String name;
+
+    public void setName(String name) {
+        if (name != null) {
+            this.name = name.trim().toLowerCase();
+        }
+    }
 
 }
